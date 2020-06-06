@@ -2,12 +2,12 @@ import path from 'path';
 import { CopyFlag, PasteFlag, Package } from './types';
 import fs from 'fs';
 
-export default function (
+export default async function (
   dest: string,
   source: string,
   copyFlag: CopyFlag = 'both',
   pasteFlag: PasteFlag = 'asEach'
-): void {
+): Promise<void> {
   const _dest = path.resolve(process.cwd(), dest);
   const _source = path.resolve(process.cwd(), source);
 
@@ -28,111 +28,111 @@ export default function (
    * read source file
    */
   let parsedSource: Package;
-  fs.promises.readFile(_source, { encoding: 'utf-8' }).then((val) => {
+  await fs.promises.readFile(_source, { encoding: 'utf-8' }).then(val => {
     try {
       parsedSource = JSON.parse(val);
     } catch (e) {
       console.error('json cannot be decoded !');
       process.exit(1);
     }
+  });
+
+  /**
+   * read other data from destination
+   */
+  let parsedDest: Package;
+  await fs.promises.readFile(_dest, { encoding: 'utf-8' }).then(async val => {
+    try {
+      parsedDest = JSON.parse(val);
+    } catch (e) {
+      console.log(`failed to parse destination`);
+      process.exit(1);
+    }
 
     /**
-     * read other data from destination
+     * check for copy flag
      */
-    let parsedDest: Package;
-    fs.promises.readFile(_dest, { encoding: 'utf-8' }).then((val) => {
-      try {
-        parsedDest = JSON.parse(val);
-      } catch (e) {
-        console.log(`failed to parse destination`);
-        process.exit(1);
-      }
+    let pack: Package;
 
+    if (copyFlag === 'onlyDep') {
       /**
-       * check for copy flag
+       * if we just want to copy the dependencies
        */
-      let pack: Package;
-
-      if (copyFlag === 'onlyDep') {
-        /**
-         * if we just want to copy the dependencies
-         */
-        pack = {
-          dependencies: parsedSource.dependencies,
-        };
-      } else if (copyFlag === 'onlyDev') {
-        /**
-         * if we just want to copy the devDependencies
-         */
-        pack = {
-          devDependencies: parsedSource.devDependencies,
-        };
-      } else if (copyFlag !== 'both') {
-        /**
-         * catch invalid flag here
-         */
-        console.log(`Invalid Flag !`);
-        process.exit(1);
-      } else {
-        /**
-         * if we want to copy both (default)
-         */
-        pack = {
-          dependencies: parsedSource.dependencies,
-          devDependencies: parsedSource.devDependencies,
-        };
-      }
-
+      pack = {
+        dependencies: parsedSource.dependencies,
+      };
+    } else if (copyFlag === 'onlyDev') {
       /**
-       * check for paste flag
+       * if we just want to copy the devDependencies
        */
-      if (pasteFlag === 'asDep') {
-        /**
-         * if we only want to paste it to dependencies
-         */
-        pack = {
-          dependencies: {
-            ...pack.dependencies,
-            ...pack.devDependencies,
-          },
-          devDependencies: {},
-        };
-      } else if (pasteFlag === 'asDev') {
-        /**
-         * if we only want to paste it to devDependencies
-         */
-        pack = {
-          dependencies: {},
-          devDependencies: {
-            ...pack.dependencies,
-            ...pack.devDependencies,
-          },
-        };
-      } else if (pasteFlag !== 'asEach') {
-        /**
-         * catch invalid flag here
-         */
-        console.log(`Invalid paste flag`);
-        process.exit(1);
-      } else {
-        /**
-         * do nothing
-         */
-      }
-
+      pack = {
+        devDependencies: parsedSource.devDependencies,
+      };
+    } else if (copyFlag !== 'both') {
       /**
-       * write to destination file
+       * catch invalid flag here
        */
-      try {
-        const newDestContent = JSON.stringify({ ...parsedDest, ...pack });
+      console.log(`Invalid Flag !`);
+      process.exit(1);
+    } else {
+      /**
+       * if we want to copy both (default)
+       */
+      pack = {
+        dependencies: parsedSource.dependencies,
+        devDependencies: parsedSource.devDependencies,
+      };
+    }
 
-        fs.promises.writeFile(_dest, newDestContent).then(() => {
-          console.log(`success copying dependencies to destination`);
-        });
-      } catch (e) {
-        console.log('error when stringify dest');
-        process.exit(1);
-      }
-    });
+    /**
+     * check for paste flag
+     */
+    if (pasteFlag === 'asDep') {
+      /**
+       * if we only want to paste it to dependencies
+       */
+      pack = {
+        dependencies: {
+          ...pack.dependencies,
+          ...pack.devDependencies,
+        },
+        devDependencies: {},
+      };
+    } else if (pasteFlag === 'asDev') {
+      /**
+       * if we only want to paste it to devDependencies
+       */
+      pack = {
+        dependencies: {},
+        devDependencies: {
+          ...pack.dependencies,
+          ...pack.devDependencies,
+        },
+      };
+    } else if (pasteFlag !== 'asEach') {
+      /**
+       * catch invalid flag here
+       */
+      console.log(`Invalid paste flag`);
+      process.exit(1);
+    } else {
+      /**
+       * do nothing
+       */
+    }
+
+    /**
+     * write to destination file
+     */
+    try {
+      const newDestContent = JSON.stringify({ ...parsedDest, ...pack });
+
+      await fs.promises.writeFile(_dest, newDestContent).then(() => {
+        console.log(`success copying dependencies to destination`);
+      });
+    } catch (e) {
+      console.log('error when stringify dest');
+      process.exit(1);
+    }
   });
 }

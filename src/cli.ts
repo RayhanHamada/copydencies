@@ -5,14 +5,14 @@ import copydencies from './index';
 
 const promptMsg = `format: $copyden <dest> <source> [--onlyDep | --onlyDev | --both] [--asDep | --asDev | --asEach]
 flag for source dependency:
---onlyDep   : copy only dependencies
---onlyDev   : copy only devDependencies
---both      : copy both (default)
+--onlyDep   : copy only source's dependencies
+--onlyDev   : copy only source's devDependencies
+--both      : copy both source's dependencies and devDependencies (default)
 
 flag for destination dependency
---asDep     : paste as dependencies
---asDev     : paste as devDependencies
---asEach    : paste as each (default)
+--asDep     : paste as dest's dependencies
+--asDev     : paste as dest's devDependencies
+--asEach    : paste as dest's dependencies and devDependencies (default)
 `;
 
 const promptFlags: AppFlags = {

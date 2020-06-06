@@ -4,8 +4,21 @@ const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_1 = tslib_1.__importDefault(require("fs"));
 async function copyden(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
-    const _dest = path_1.default.resolve(process.cwd(), dest);
-    const _source = path_1.default.resolve(process.cwd(), source);
+    let _dest, _source;
+    try {
+        _dest = path_1.default.resolve(process.cwd(), dest);
+    }
+    catch (e) {
+        console.log(`dest path failed to be resolved, please check your dest path !`);
+        process.exit(1);
+    }
+    try {
+        _source = path_1.default.resolve(process.cwd(), source);
+    }
+    catch (e) {
+        console.log(`source path failed to be resolved, please check your source path !`);
+        process.exit(1);
+    }
     /**
      * check if destination and source exists
      */
@@ -39,7 +52,7 @@ async function copyden(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
             parsedDest = JSON.parse(val);
         }
         catch (e) {
-            console.log(`failed to parse destination`);
+            console.log(`failed to parse destination, please check your destination package.json !`);
             process.exit(1);
         }
         /**

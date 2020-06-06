@@ -2,7 +2,7 @@ import path from 'path';
 import { CopyFlag, PasteFlag, Package } from './types';
 import fs from 'fs';
 
-export default async function (
+async function copyden(
   dest: string,
   source: string,
   copyFlag: CopyFlag = 'both',
@@ -136,3 +136,5 @@ export default async function (
     }
   });
 }
+
+export default copyden;

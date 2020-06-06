@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_1 = tslib_1.__importDefault(require("fs"));
-async function default_1(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
+async function copyden(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
     const _dest = path_1.default.resolve(process.cwd(), dest);
     const _source = path_1.default.resolve(process.cwd(), source);
     /**
@@ -132,4 +132,4 @@ async function default_1(dest, source, copyFlag = 'both', pasteFlag = 'asEach') 
         }
     });
 }
-exports.default = default_1;
+exports.default = copyden;

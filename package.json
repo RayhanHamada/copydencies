@@ -29,6 +29,6 @@
     "meow": "^7.0.1"
   },
   "bin": {
-    "copyden": "./dist/cli.js"
+    "copyden": "./lib/cli.js"
   }
 }

@@ -56,7 +56,7 @@ else if (cli.input.length < 2) {
  * for catched invalid flags
  */
 const invalidFlag = (flag) => {
-    console.log(`Invalid ${flag} flag`);
+    console.log(`Invalid ${flag} flag !`);
     cli.showHelp();
     process.exit(1);
 };
@@ -68,15 +68,19 @@ const source = cli.input[1];
 let copyFlag = 'both';
 let pasteFlag = 'asEach';
 if (cli.flags.onlyDep)
-    copyFlag = 'onlyDep'; // only copy dependencies
+    copyFlag = 'onlyDep';
+// only copy dependencies
 else if (cli.flags.onlyDev)
-    copyFlag = 'onlyDev'; // only copy devDependencies
+    copyFlag = 'onlyDev';
+// only copy devDependencies
 else if (!cli.flags.both)
     invalidFlag('copy'); // catch invalid flag
 if (cli.flags.asDep)
-    pasteFlag = 'asDep'; // paste as dependencies
+    pasteFlag = 'asDep';
+// paste as dependencies
 else if (cli.flags.asDev)
-    pasteFlag = 'asDev'; // paste as devDependencies
+    pasteFlag = 'asDev';
+// paste as devDependencies
 else if (!cli.flags.both)
     invalidFlag('paste'); // catch
 index_1.default(dest, source, copyFlag, pasteFlag);

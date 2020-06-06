@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs_1 = tslib_1.__importDefault(require("fs"));
-function default_1(dest, source, copyFlag, pasteFlag) {
+function default_1(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
     const _dest = path_1.default.resolve(process.cwd(), dest);
     const _source = path_1.default.resolve(process.cwd(), source);
     /**
@@ -65,7 +65,7 @@ function default_1(dest, source, copyFlag, pasteFlag) {
                 /**
                  * catch invalid flag here
                  */
-                console.log(`Invalid Flag`);
+                console.log(`Invalid Flag !`);
                 process.exit(1);
             }
             else {

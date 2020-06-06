@@ -5,8 +5,8 @@ import fs from 'fs';
 export default function (
   dest: string,
   source: string,
-  copyFlag: CopyFlag,
-  pasteFlag: PasteFlag
+  copyFlag: CopyFlag = 'both',
+  pasteFlag: PasteFlag = 'asEach'
 ): void {
   const _dest = path.resolve(process.cwd(), dest);
   const _source = path.resolve(process.cwd(), source);

@@ -5,6 +5,7 @@ export type Package = {
   dependencies?: Record<string, string>;
   [key: string]: unknown;
 };
+
 export type CopyFlag = 'onlyDep' | 'onlyDev' | 'both';
 export type PasteFlag = 'asDep' | 'asDev' | 'asEach';
 

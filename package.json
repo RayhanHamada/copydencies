@@ -6,7 +6,8 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc -b ./tsconfig.json",
     "lint": "./node_modules/.bin/eslint src/ --fix",
-    "test": "mocha ./test/**/*.spec.ts"
+    "test": "mocha ./test/**/*.spec.ts",
+    "fmt": "./node_modules/.bin/prettier {src,test}/**/* --write"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

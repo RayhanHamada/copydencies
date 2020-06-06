@@ -2,6 +2,7 @@ import meow from 'meow';
 import fs from 'fs';
 import path from 'path';
 import { AppFlags, Package } from './types';
+import {} from 'prettier';
 
 const promptMsg = `format: $copyden <dest> <source> [--onlyDep | --onlyDev | --both] [--asDep | --asDev | --asEach]
 flag for source dependency:
@@ -97,14 +98,12 @@ fs.promises.readFile(source, { encoding: 'utf-8' }).then((val) => {
      */
     pack = {
       dependencies: parsedSource.dependencies,
-      devDependencies: {},
     };
   } else if (cli.flags.onlyDev) {
     /**
      * if we just want to copy the devDependencies
      */
     pack = {
-      dependencies: {},
       devDependencies: parsedSource.devDependencies,
     };
   } else if (cli.flags.both) {
@@ -157,7 +156,7 @@ fs.promises.readFile(source, { encoding: 'utf-8' }).then((val) => {
   }
 
   /**
-   * we should read other data from source
+   * read other data from destination
    */
   let parsedDest: Package;
   fs.promises.readFile(dest, { encoding: 'utf-8' }).then((val) => {
@@ -171,10 +170,15 @@ fs.promises.readFile(source, { encoding: 'utf-8' }).then((val) => {
     /**
      * write to destination file
      */
-    fs.promises
-      .writeFile(dest, JSON.stringify({ ...parsedDest, ...pack }))
-      .then(() => {
-        console.log(`success writing to destination`);
+    try {
+      const stringifiedDest = JSON.stringify({ ...parsedDest, ...pack });
+
+      fs.promises.writeFile(dest, stringifiedDest).then(() => {
+        console.log(`success copying dependencies to destination`);
       });
+    } catch (e) {
+      console.log('error when stringify dest');
+      process.exit(1);
+    }
   });
 });

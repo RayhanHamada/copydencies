@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": { "build": "./node_modules/.bin/tsc -b ./tsconfig.json" },
-  "dependencies": {},
+  "dependencies": { "wowo": "^7.0.1" },
   "devDependencies": {
     "@types/meow": "^5.0.0",
     "@types/node": "^14.0.10",

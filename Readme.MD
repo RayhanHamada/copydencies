@@ -75,9 +75,10 @@ yarn add copydencies
 and u could use it in your code
 
 ```ts
+// import with es6 import statement like this
 import copyden from 'copydencies';
 // or with regular require import
-const copyden = require('copydencies');
+const copyden = require('copydencies').default; 
 
 // and use it like this
 

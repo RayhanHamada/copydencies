@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "author": {
+    "email": "hamadadesk1999@gmail.com",
+    "name": "Rayhan Hamada"
+  },
+  "repository": {
+    "url": "https://github.com/RayhanHamada/copydencies"
+  },
   "scripts": {
     "build": "./node_modules/.bin/tsc -b ./tsconfig.json",
     "lint": "./node_modules/.bin/eslint src/ --fix",

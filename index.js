@@ -129,7 +129,6 @@ async function copyden(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
                 ...pack.dependencies,
                 ...pack.devDependencies,
             },
-            devDependencies: {},
         };
     }
     else if (pasteFlag === 'asDev') {
@@ -137,7 +136,6 @@ async function copyden(dest, source, copyFlag = 'both', pasteFlag = 'asEach') {
          * if we only want to paste it to devDependencies
          */
         pack = {
-            dependencies: {},
             devDependencies: {
                 ...pack.dependencies,
                 ...pack.devDependencies,

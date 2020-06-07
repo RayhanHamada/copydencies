@@ -141,14 +141,12 @@ async function copyden(
         ...pack.dependencies,
         ...pack.devDependencies,
       },
-      devDependencies: {},
     };
   } else if (pasteFlag === 'asDev') {
     /**
      * if we only want to paste it to devDependencies
      */
     pack = {
-      dependencies: {},
       devDependencies: {
         ...pack.dependencies,
         ...pack.devDependencies,

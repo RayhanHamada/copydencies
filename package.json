@@ -1,6 +1,6 @@
 {
   "name": "copydencies",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -36,6 +36,6 @@
     "meow": "^7.0.1"
   },
   "bin": {
-    "copyden": "./lib/cli.js"
+    "copyden": "./cli.js"
   }
 }

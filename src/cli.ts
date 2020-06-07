@@ -73,16 +73,18 @@ const source = cli.input[1];
 let copyFlag: CopyFlag = 'both';
 let pasteFlag: PasteFlag = 'asEach';
 
-if (cli.flags.onlyDep) copyFlag = 'onlyDep';
 // only copy dependencies
-else if (cli.flags.onlyDev) copyFlag = 'onlyDev';
+if (cli.flags.onlyDep) copyFlag = 'onlyDep';
 // only copy devDependencies
-else if (!cli.flags.both) invalidFlag('copy'); // catch invalid flag
+else if (cli.flags.onlyDev) copyFlag = 'onlyDev';
+// copy both dependencies and devDependencies
+else if (cli.flags.both) copyFlag = 'both';
 
-if (cli.flags.asDep) pasteFlag = 'asDep';
 // paste as dependencies
-else if (cli.flags.asDev) pasteFlag = 'asDev';
+if (cli.flags.asDep) pasteFlag = 'asDep';
 // paste as devDependencies
-else if (!cli.flags.both) invalidFlag('paste'); // catch
+else if (cli.flags.asDev) pasteFlag = 'asDev';
+// paste as each dependency
+else if (cli.flags.asEach) pasteFlag = 'asEach';
 
 copydencies(dest, source, copyFlag, pasteFlag);
